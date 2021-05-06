@@ -46,6 +46,7 @@ class FirstPage extends State<LoginForm> {
 
   final _formKey = GlobalKey<FormState>();
   bool isValid = false;
+  bool _isHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +99,18 @@ class FirstPage extends State<LoginForm> {
           // Password Field
 
           TextFormField(
+            obscureText: _isHidden,
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 hintText: "Password",
+                suffix: InkWell(
+                  onTap: _togglePasswordView,
+                  child: Icon(
+                    _isHidden
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0))
             ),
@@ -134,7 +144,7 @@ class FirstPage extends State<LoginForm> {
 
 
           Container(
-            margin: EdgeInsets.all(50),
+            margin: EdgeInsets.all(40),
             alignment: Alignment.center,
             child: ElevatedButton(
               child: Text('LOGIN', style: TextStyle(fontSize: 20.0),),
@@ -162,5 +172,10 @@ class FirstPage extends State<LoginForm> {
       ),
 
     );
+  }
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 }
