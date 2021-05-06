@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-//import 'package:email_validator/email_validator.dart';
+import 'package:email_validator/email_validator.dart';
 
 
 void main() => runApp(MyApp());
+
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
+  }
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTitle = 'Login Assignment';
+
+
 
 
     return MaterialApp(
@@ -53,15 +63,27 @@ class FirstPage extends State<LoginForm> {
 
 
           TextFormField(
-            //controller: _idcontroller,
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                hintText: "Email ID",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0))
-            ),
-
-
+            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            hintText: "Email",
+            border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0))
+           ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter valid email id';
+              }
+              else if (!value.isValidEmail()){
+                Fluttertoast.showToast(
+                    msg: 'Invalid Email ',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.black,
+                    fontSize: 16.0
+                );
+              }
+            }
           ),
 
 
